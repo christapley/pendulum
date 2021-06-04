@@ -39,6 +39,15 @@ def test_read_invalid():
         reader.read(tz_file)
 
 
+def test_read_directory():
+    reader = Reader()
+    local_path = os.path.join(os.path.split(__file__)[0], "..", "..")
+    tz_file = os.path.join(local_path, "fixtures", "tz")
+
+    with pytest.raises(InvalidZoneinfoFile):
+        reader.read(tz_file)
+
+
 def test_set_transitions_for_no_transition_database_file():
     reader = Reader()
     tz = reader.read_for("Etc/UTC")

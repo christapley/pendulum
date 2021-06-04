@@ -9,7 +9,7 @@ from typing import Union
 
 from .timezone import Timezone
 from .timezone import TimezoneFile
-from .zoneinfo.exceptions import InvalidTimezone
+from .zoneinfo.exceptions import ZoneinfoError
 
 
 try:
@@ -212,7 +212,7 @@ def _get_unix_timezone(_root="/"):  # type: (str) -> Timezone
 
                     try:
                         return Timezone(os.path.join(*tzpath))
-                    except InvalidTimezone:
+                    except ZoneinfoError:
                         pass
 
     # systemd distributions use symlinks that include the zone name,
@@ -227,7 +227,7 @@ def _get_unix_timezone(_root="/"):  # type: (str) -> Timezone
             tzpath.insert(0, parts.pop(0))
             try:
                 return Timezone(os.path.join(*tzpath))
-            except InvalidTimezone:
+            except ZoneinfoError:
                 pass
 
     # No explicit setting existed. Use localtime
